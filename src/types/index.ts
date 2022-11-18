@@ -13,8 +13,18 @@ export type FormControlsProps<T extends object> = {
   title: string;
   rules: RegisterOptions;
   type: InputHTMLAttributes<HTMLInputElement>['type'];
-} & Partial<
-  Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onBlur' | 'onChange'>
+} & Pick<
+  InputHTMLAttributes<HTMLInputElement>,
+  | 'placeholder'
+  | 'multiple'
+  | 'aria-label'
+  | 'accept'
+  | 'color'
+  | 'maxLength'
+  | 'minLength'
+  | 'pattern'
+  | 'required'
+  | 'readOnly'
 >;
 
 export type FormControlsCustom<T extends object> = {

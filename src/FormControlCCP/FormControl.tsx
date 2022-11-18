@@ -1,5 +1,4 @@
 import { Controller, Path, PathValue, FieldError } from 'react-hook-form';
-
 import React, { createContext } from 'react';
 import { FormControlComponent, FormControlPropsTotal } from '../types';
 type FormControlContextProps<T extends object> = {
@@ -42,8 +41,8 @@ const FormControl = <T extends object>(
         const id = title.split(' ').join('');
         const properties: FormControlPropsTotal<T> = {
           props: {
-            ...field,
             ...rest,
+            ...field,
             name: props.name,
             value: field.value || ('' as PathValue<T, Path<T>>),
             id,
@@ -53,7 +52,6 @@ const FormControl = <T extends object>(
             ...formState,
           },
         };
-
         return (
           <FormControlContext.Provider
             value={{
@@ -63,9 +61,7 @@ const FormControl = <T extends object>(
             }}
           >
             <div className={className}>
-              {custom
-                ? children(properties as FormControlPropsTotal<T>)
-                : children}
+              {custom ? children(properties) : children}
             </div>
           </FormControlContext.Provider>
         );
