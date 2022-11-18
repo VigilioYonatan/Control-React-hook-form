@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import {
   Control,
@@ -10,13 +10,10 @@ import {
 
 export type FormControlsProps<T extends object> = {
   name: Path<T>;
-  type?: InputHTMLAttributes<HTMLInputElement>['type'];
   title: string;
-  placeholder?: string;
   rules: RegisterOptions;
-  // multiple?: boolean;
-  // accept?: Accept | string[]; // acept por react-dropzone
-};
+} & Partial<InputHTMLAttributes<HTMLInputElement>>;
+
 export type FormControlsCustom<T extends object> = {
   [a in keyof T]: FormControlsProps<T>;
 };
