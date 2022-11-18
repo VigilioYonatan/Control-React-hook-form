@@ -25,14 +25,14 @@ const FormControl = <T extends object>(
   const {
     control,
     name,
-    type = 'text',
-    title,
-    placeholder,
     rules,
     className,
     custom = false,
     children,
+    title,
+    ...rest
   } = props;
+
   return (
     <Controller
       control={control}
@@ -43,9 +43,9 @@ const FormControl = <T extends object>(
         const properties: FormControlPropsTotal<T> = {
           props: {
             ...field,
+            ...rest,
+            name: props.name,
             value: field.value || ('' as PathValue<T, Path<T>>),
-            type,
-            placeholder,
             id,
           },
           renderMethods: {

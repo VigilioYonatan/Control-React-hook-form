@@ -1,4 +1,4 @@
-import {  InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import {
   Control,
@@ -12,7 +12,10 @@ export type FormControlsProps<T extends object> = {
   name: Path<T>;
   title: string;
   rules: RegisterOptions;
-} & Partial<InputHTMLAttributes<HTMLInputElement>>;
+  type: InputHTMLAttributes<HTMLInputElement>['type'];
+} & Partial<
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onBlur' | 'onChange'>
+>;
 
 export type FormControlsCustom<T extends object> = {
   [a in keyof T]: FormControlsProps<T>;
@@ -29,7 +32,7 @@ type RenderProps<T extends object> = ControllerFieldState &
 export type FormControlPropsTotal<T extends object> = {
   renderMethods: RenderProps<T>;
 } & {
-  props: Pick<FormControlsProps<T>, 'placeholder' | 'type' | 'name'> & {
+  props: Omit<FormControlsProps<T>, 'rules' | 'title'> & {
     id: string;
   } & ControllerRenderProps<T, Path<T>>;
 };

@@ -34,6 +34,7 @@ export const formAddUsuario = {
     name: 'name',
     placeholder: 'username',
     rules: { required: { message: 'This field is required', value: true } }, //
+    type:"text",
     // id for default is the title
   },
   password: {
@@ -104,6 +105,7 @@ const formImage = {
     name: 'image',
     type: 'file',
     title: 'image',
+    multiple:true,
     rules: {
       validate: (files: File[]) => {
         if (!files) {
@@ -159,6 +161,7 @@ export const formAddUsuario: FormControlsCustom<AddUsuario> = {
     title: 'name',
     name: 'name',
     placeholder: 'user name',
+    type:"text",
     rules: { required: { message: 'This field is required', value: true } },
   },
   password: {
