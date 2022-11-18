@@ -8,7 +8,7 @@ const TextArea = <T extends object>(props: FormControlComponent<T>) => {
     return (
         <FormController className="form__group" custom {...props}>
             {(properties: FormControlPropsTotal<T>) => {
-                const { type, ...rest } = properties;
+                const { type, ...rest } = properties.props;
                 return (
                     <>
                         <FormController.label className="form__label" />

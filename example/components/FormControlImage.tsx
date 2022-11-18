@@ -8,7 +8,7 @@ const FormControlImage = <T extends object>(props: FormControlComponent<T>) => {
     return (
         <FormController className="form__group" custom {...props}>
             {(properties: FormControlPropsTotal<T>) => {
-                const { placeholder, onChange, value, ...rest } = properties;
+                const { placeholder, onChange, value, ...rest } = properties.props;
                 return (
                     <>
                         <FormController.label className="form__label" />

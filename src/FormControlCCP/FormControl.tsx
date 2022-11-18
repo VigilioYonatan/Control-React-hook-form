@@ -3,7 +3,7 @@ import { Controller, Path, PathValue, FieldError } from 'react-hook-form';
 import React, { createContext } from 'react';
 import { FormControlComponent, FormControlPropsTotal } from '../types';
 type FormControlContextProps<T extends object> = {
-  properties: FormControlPropsTotal<T>;
+  properties: FormControlPropsTotal<T>['props'];
   error: FieldError | undefined;
   title: string;
 };
@@ -41,25 +41,29 @@ const FormControl = <T extends object>(
       render={({ fieldState, field, formState }) => {
         const id = title.split(' ').join('');
         const properties: FormControlPropsTotal<T> = {
-          ...field,
-          ...fieldState,
-          ...formState,
-          value: field.value || ('' as PathValue<T, Path<T>>),
-          type,
-          placeholder,
-          id,
+          props: {
+            ...field,
+            value: field.value || ('' as PathValue<T, Path<T>>),
+            type,
+            placeholder,
+            id,
+          },
+          renderMethods: {
+            ...fieldState,
+            ...formState,
+          },
         };
 
         return (
           <FormControlContext.Provider
             value={{
-              properties: properties as any,
+              properties: properties.props as any,
               error: fieldState.error,
               title,
             }}
           >
             <div className={className}>
-              {custom ? children(properties) : children}
+              {custom ? children(properties.props) : children}
             </div>
           </FormControlContext.Provider>
         );

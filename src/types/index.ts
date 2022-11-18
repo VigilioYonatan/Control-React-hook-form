@@ -2,8 +2,8 @@ import { InputHTMLAttributes } from 'react';
 import {
   Control,
   ControllerFieldState,
-  ControllerRenderProps,
   Path,
+  PathValue,
   RegisterOptions,
   UseFormStateReturn,
 } from 'react-hook-form';
@@ -26,14 +26,17 @@ type FormControlProps<T extends object> = {
   control: Control<T, any>;
 };
 
-type RenderProps<T extends object> = ControllerRenderProps<T, Path<T>> &
-  ControllerFieldState &
+type RenderProps<T extends object> = ControllerFieldState &
   UseFormStateReturn<T>;
 
-export type FormControlPropsTotal<T extends object> = RenderProps<T> &
-  Pick<FormControlsProps<T>, 'placeholder' | 'type' | 'name'> & {
+export type FormControlPropsTotal<T extends object> = {
+  renderMethods: RenderProps<T>;
+} & {
+  props: Pick<FormControlsProps<T>, 'placeholder' | 'type' | 'name'> & {
     id: string;
+    value: PathValue<T, Path<T>>;
   };
+};
 
 export type FormControlComponent<T extends object> = FormControlProps<T> &
   FormControlsProps<T>;
