@@ -63,7 +63,9 @@ const FormControl = <T extends object>(
             }}
           >
             <div className={className}>
-              {custom ? children(properties) : children}
+              {custom
+                ? children(properties as FormControlPropsTotal<T>)
+                : children}
             </div>
           </FormControlContext.Provider>
         );

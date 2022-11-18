@@ -11,7 +11,6 @@ const FormControlControl = ({
   customError,
 }: FormControlControlProps) => {
   const { properties, error } = useContext(FormControlContext);
-
   return (
     <input
       {...properties}

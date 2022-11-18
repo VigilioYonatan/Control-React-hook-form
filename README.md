@@ -81,8 +81,9 @@ import {
 const FormControlImage = props => {
   return (
     <FormController className="form__group" custom {...props}>
-      {properties => {
-        const { placeholder, onChange, value, ...rest } = properties.props; // properties react hook form controller like error , placeholder,value,onChange,... etc
+    
+      {({ props,renderMethods } ) => {
+        const { placeholder, onChange, value, ...rest } = props; // properties react hook form controller like error , placeholder,value,onChange,... etc
         return (
           <>
             <FormController.label className="form__label" />
