@@ -1,11 +1,11 @@
 import { InputHTMLAttributes } from 'react';
-import { ControllerRenderProps } from 'react-hook-form';
 import {
   Control,
   ControllerFieldState,
   Path,
   RegisterOptions,
   UseFormStateReturn,
+  ControllerRenderProps,
 } from 'react-hook-form';
 
 export type FormControlsProps<T extends object> = {
