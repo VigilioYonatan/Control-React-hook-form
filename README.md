@@ -82,7 +82,7 @@ const FormControlImage = props => {
   return (
     <FormController className="form__group" custom {...props}>
       {properties => {
-        const { placeholder, onChange, value, ...rest } = properties; // properties react hook form controller
+        const { placeholder, onChange, value, ...rest } = properties; // properties react hook form controller like error , placeholder,value,onChange,... etc
         return (
           <>
             <FormController.label className="form__label" />

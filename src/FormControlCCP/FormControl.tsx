@@ -38,10 +38,12 @@ const FormControl = <T extends object>(
       control={control}
       name={name}
       rules={rules}
-      render={({ fieldState: { error }, field }) => {
+      render={({ fieldState, field, formState }) => {
         const id = title.split(' ').join('');
         const properties: FormControlPropsTotal<T> = {
           ...field,
+          ...fieldState,
+          ...formState,
           value: field.value || ('' as PathValue<T, Path<T>>),
           type,
           placeholder,
@@ -52,7 +54,7 @@ const FormControl = <T extends object>(
           <FormControlContext.Provider
             value={{
               properties: properties as any,
-              error,
+              error: fieldState.error,
               title,
             }}
           >
