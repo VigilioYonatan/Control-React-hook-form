@@ -1,160 +1,189 @@
-# TSDX React User Guide
+# control-react-hook-form
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+Simple package to optimize code using react hook form when you use Controller
 
-> This TSDX setup is meant for developing React component libraries (not apps!) that can be published to NPM. If you’re looking to build a React-based app, you should use `create-react-app`, `razzle`, `nextjs`, `gatsby`, or `react-static`.
+## basic Example
 
-> If you’re new to TypeScript and React, checkout [this handy cheatsheet](https://github.com/sw-yx/react-typescript-cheatsheet/)
+```tsx
+// components/FormControl.jsx
+import { FormController } from 'control-react-hook-form';
 
-## Commands
+const FormControl = props => {
+  return (
+    <FormController className="form__group" {...props}>
+      <FormController.label className="form__label" />
+      <FormController.control
+        className="form__control"
+        customError="form__control__error"
+      />
+      <FormController.error className="form__error" />
+    </FormController>
+  );
+};
 
-TSDX scaffolds your new library inside `/src`, and also sets up a [Parcel-based](https://parceljs.org) playground for it inside `/example`.
-
-The recommended workflow is to run TSDX in one terminal:
-
-```bash
-npm start # or yarn start
+export default FormControl;
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+- You can add this file in another folder
 
-Then run the example inside another:
-
-```bash
-cd example
-npm i # or yarn to install dependencies
-npm start # or yarn start
+```ts
+// utils/forms/userForm.ts
+export const formAddUsuario = {
+  name: {
+    title: 'name',
+    name: 'name',
+    placeholder: 'username',
+    rules: { required: { message: 'This field is required', value: true } }, //
+    // id for default is the title
+  },
+  password: {
+    title: 'password',
+    type: 'password',
+    name: 'password',
+    placeholder: 'user password',
+    rules: { required: { message: 'This field is required', value: true } },
+  },
+  // ... more
+};
 ```
 
-The default example imports and live reloads whatever is in `/dist`, so if you are seeing an out of date component, make sure TSDX is running in watch mode like we recommend above. **No symlinking required**, we use [Parcel's aliasing](https://parceljs.org/module_resolution.html#aliases).
+```tsx
+// form
+const App = () => {
+  const { control, handleSubmit } = useForm();
 
-To do a one-off build, use `npm run build` or `yarn build`.
+  const onSubmit = data => {
+    console.log(data); //
+  };
 
-To run tests, use `npm test` or `yarn test`.
-
-## Configuration
-
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle analysis
-
-Calculates the real cost of your library using [size-limit](https://github.com/ai/size-limit) with `npm run size` and visulize it with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/example
-  index.html
-  index.tsx       # test your component here in a demo app
-  package.json
-  tsconfig.json
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormControlBasic control={control} {...addProductoForm.name} />
+      <FormControlBasic control={control} {...addProductoForm.password} />
+      <button type="submit">Sign up</button>
+    </form>
+  );
+};
 ```
 
-#### React Testing Library
+## Custom
 
-We do not set up `react-testing-library` for you yet, we welcome contributions and documentation on this.
+if you want to customize you form control
 
-### Rollup
+```tsx
+// file control example
+import {
+  FormController,
+  FormControlComponent,
+  FormControlPropsTotal,
+} from 'control-react-hook-form';
 
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
+const FormControlImage = props => {
+  return (
+    <FormController className="form__group" custom {...props}>
+      {properties => {
+        const { placeholder, onChange, value, ...rest } = properties; // properties react hook form controller
+        return (
+          <>
+            <FormController.label className="form__label" />
+            <input {...rest} onChange={e => onChange(e.target.files)} />
+            <FormController.error className="form__error" />
+          </>
+        );
+      }}
+    </FormController>
+  );
+};
 
-### TypeScript
+export default FormControlImage;
 
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
+// <FormControlImage control={control} {...addProductoForm.image} />
+const formImage = {
+  image: {
+    name: 'image',
+    type: 'file',
+    title: 'image',
+    rules: {
+      validate: (files: File[]) => {
+        if (!files) {
+          return 'This field is required';
+        }
+        for (const file of files) {
+          if (
+            !['image/jpeg', 'image/png', 'image/webp', 'image/jpeg'].includes(
+              file.type
+            )
+          ) {
+            return 'Formato no valid';
+          }
+        }
+      },
+    },
+  },
+};
+```
 
-## Continuous Integration
+## Using Typescript
 
-### GitHub Actions
+```tsx
+import { FormController, FormControlComponent } from 'control-react-hook-form';
 
-Two actions are added by default:
+const FormControl = <T extends object>(props: FormControlComponent<T>) => {
+  return (
+    <FormController className="form__group" {...props}>
+      <FormController.label className="form__label" />
+      <FormController.control
+        className="form__control"
+        customError="form__control__error"
+      />
+      <FormController.error className="form__error" />
+    </FormController>
+  );
+};
 
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
+export default FormControl;
+```
 
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
+```ts
+interface Usuario {
+  id: string;
+  name: string;
+  password: string;
 }
+
+export type AddUsuario = Omit<Usuario, 'id'>;
+
+export const formAddUsuario: FormControlsCustom<AddUsuario> = {
+  name: {
+    title: 'name',
+    name: 'name',
+    placeholder: 'user name',
+    rules: { required: { message: 'This field is required', value: true } },
+  },
+  password: {
+    title: 'password',
+    type: 'password',
+    name: 'password',
+    placeholder: 'user password ',
+    rules: { required: { message: 'This field is required', value: true } },
+  },
+};
+
+const App = () => {
+  const { control, handleSubmit } = useForm<AddUser>();
+
+  const onSubmit = (data: AddUser) => {
+    console.log(data); //
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormControlBasic control={control} {...addProductoForm.name} />
+      <FormControlBasic control={control} {...addProductoForm.password} />
+      <button type="submit">Sign up</button>
+    </form>
+  );
+};
 ```
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
-
-## Module Formats
-
-CJS, ESModules, and UMD module formats are supported.
-
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
-
-## Deploying the Example Playground
-
-The Playground is just a simple [Parcel](https://parceljs.org) app, you can deploy it anywhere you would normally deploy that. Here are some guidelines for **manually** deploying with the Netlify CLI (`npm i -g netlify-cli`):
-
-```bash
-cd example # if not already in the example folder
-npm run build # builds to dist
-netlify deploy # deploy the dist folder
-```
-
-Alternatively, if you already have a git repo connected, you can set up continuous deployment with Netlify:
-
-```bash
-netlify init
-# build command: yarn build && cd example && yarn && yarn build
-# directory to deploy: example/dist
-# pick yes for netlify.toml
-```
-
-## Named Exports
-
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
-
-## Usage with Lerna
-
-When creating a new package with TSDX within a project set up with Lerna, you might encounter a `Cannot resolve dependency` error when trying to run the `example` project. To fix that you will need to make changes to the `package.json` file _inside the `example` directory_.
-
-The problem is that due to the nature of how dependencies are installed in Lerna projects, the aliases in the example project's `package.json` might not point to the right place, as those dependencies might have been installed in the root of your Lerna project.
-
-Change the `alias` to point to where those packages are actually installed. This depends on the directory structure of your Lerna project, so the actual path might be different from the diff below.
-
-```diff
-   "alias": {
--    "react": "../node_modules/react",
--    "react-dom": "../node_modules/react-dom"
-+    "react": "../../../node_modules/react",
-+    "react-dom": "../../../node_modules/react-dom"
-   },
-```
-
-An alternative to fixing this problem would be to remove aliases altogether and define the dependencies referenced as aliases as dev dependencies instead. [However, that might cause other problems.](https://github.com/palmerhq/tsdx/issues/64)
+More examples in github repository
