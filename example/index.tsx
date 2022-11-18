@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { useForm } from 'react-hook-form';
 import { AddUser } from './utils/productoType';
-import FormControlBasic from './components/FormControlBasic';
 import { addProductoForm } from './utils/producto';
+import FormControlBasic from './components/FormControlBasic';
 import FormControlCustom from './components/FormControlCustom';
 
 const App = () => {
