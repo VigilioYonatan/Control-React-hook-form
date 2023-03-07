@@ -1,5 +1,11 @@
 # control-react-hook-form
+```bash
+#   Install react hook form
+npm install react-hook form
+#or
+yarn add react-hook-form
 
+```
 Simple package to optimize code using react hook form when you use Controller
 
 ## basic Example
