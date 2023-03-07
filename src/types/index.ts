@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 import {
   Control,
   ControllerFieldState,
@@ -11,21 +11,10 @@ import {
 export type FormControlsProps<T extends object> = {
   name: Path<T>;
   title: string;
-  rules: RegisterOptions;
-  type: InputHTMLAttributes<HTMLInputElement>['type'];
-} & Pick<
-  InputHTMLAttributes<HTMLInputElement>,
-  | 'placeholder'
-  | 'multiple'
-  | 'aria-label'
-  | 'accept'
-  | 'color'
-  | 'maxLength'
-  | 'minLength'
-  | 'pattern'
-  | 'required'
-  | 'readOnly'
->;
+  rules?: RegisterOptions;
+  // type: InputHTMLAttributes<HTMLInputElement>['type'];
+} & InputHTMLAttributes<HTMLInputElement> &
+  TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export type FormControlsCustom<T extends object> = {
   [a in keyof T]: FormControlsProps<T>;

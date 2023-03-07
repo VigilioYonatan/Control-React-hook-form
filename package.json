@@ -68,7 +68,5 @@
     "tslib": "^2.4.1",
     "typescript": "^4.9.3"
   },
-  "dependencies": {
-    "react-hook-form": "^7.39.4"
-  }
+  "dependencies": {}
 }
