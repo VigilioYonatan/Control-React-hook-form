@@ -11,9 +11,17 @@ const FormControlControl = ({
   customError,
 }: FormControlControlProps) => {
   const { properties, error } = useContext(FormControlContext);
+  const { onChange, ...rest } = properties;
   return (
     <input
-      {...properties}
+      {...rest}
+      onChange={e =>
+        onChange(
+          (properties.type = 'number'
+            ? (Number(e.target.value) as any)
+            : e.target.value)
+        )
+      }
       className={
         customError && error ? `${className} ${customError}` : className
       }
