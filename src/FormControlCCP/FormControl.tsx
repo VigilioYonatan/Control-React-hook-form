@@ -24,7 +24,7 @@ const FormControl = <T extends object>(
   const {
     control,
     name,
-    rules,
+    rules = {},
     className,
     custom = false,
     children,
@@ -36,7 +36,7 @@ const FormControl = <T extends object>(
     <Controller
       control={control}
       name={name}
-      rules={rules || {}}
+      rules={rules}
       render={({ fieldState, field, formState }) => {
         const id = title.split(' ').join('');
         const properties: FormControlPropsTotal<T> = {
@@ -44,9 +44,7 @@ const FormControl = <T extends object>(
             ...rest,
             ...field,
             name: props.name,
-            value:
-              (Number(field.value) as any) ||
-              (Number('') as PathValue<T, Path<T>>),
+            value: field.value || ('' as PathValue<T, Path<T>>),
             // props.type === 'number'
             //     ? (Number(field.value) as any) ||
             //       (Number('') as PathValue<T, Path<T>>)
