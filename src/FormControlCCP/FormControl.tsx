@@ -46,7 +46,8 @@ const FormControl = <T extends object>(
             name: props.name,
             value:
               props.type === 'number'
-                ? (Number(field.value) as any) || ('' as PathValue<T, Path<T>>)
+                ? (Number(field.value) as any) ||
+                  (Number('') as PathValue<T, Path<T>>)
                 : field.value || ('' as PathValue<T, Path<T>>),
             id,
           },
